@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VeloRent | Dashboard</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Our CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- ================= SIDEBAR ================= -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <div class="logo-icon">V</div>
+
+                <div>
+                    <h2>VeloRent</h2>
+                    <span>Rental Management</span>
+                </div>
+            </div>
+
+
+            <div class="menu-title">
+                MAIN MENU
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a href="#" class="menu-item active">
+                    <span>▣</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="{{ url_for('vehicles') }}" class="menu-item">
+                    <span>🚗</span>
+                    <span>Vehicles</span>
+                </a>
+
+                <a href="{{ url_for('customers') }}" class="menu-item">
+                    <span>👥</span>
+                    <span>Customers</span>
+                </a>
+
+                <a href="{{ url_for('rentals') }}" class="menu-item">
+                    <span>📋</span>
+                    <span>Rentals</span>
+                </a>
+
+                <a href="{{ url_for('payments') }}" class="menu-item">
+                    <span>💳</span>
+                    <span>Payments</span>
+                </a>
+
+                <a href="{{ url_for('reports') }}" class="menu-item">
+                    <span>📊</span>
+                    <span>Reports</span>
+                </a>
+
+            </nav>
+
+
+            <div class="menu-title settings-title">
+                SYSTEM
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a href="#" class="menu-item">
+                    <span>⚙</span>
+                    <span>Settings</span>
+                </a>
+
+                <a href="#" class="menu-item logout">
+                    <span>↪</span>
+                    <span>Logout</span>
+                </a>
+
+            </nav>
+
+
+            <!-- Admin Profile -->
+            <div class="admin-profile">
+
+                <div class="profile-avatar">
+                    A
+                </div>
+
+                <div class="profile-info">
+                    <strong>Admin</strong>
+                    <span>Administrator</span>
+                </div>
+
+                <span class="profile-more">•••</span>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="main-content">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <div class="mobile-menu">
+                    ☰
+                </div>
+
+                <div class="search-box">
+                    <span>⌕</span>
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search vehicles, customers..."
+                    >
+                </div>
+
+
+                <div class="topbar-right">
+
+                    <button class="icon-button">
+                        🔔
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <div class="top-profile">
+                        <div class="top-avatar">
+                            A
+                        </div>
+
+                        <div>
+                            <strong>Admin</strong>
+                            <small>Administrator</small>
+                        </div>
+
+                        <span>⌄</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- DASHBOARD CONTENT -->
+
+            <section class="content">
+
+                <!-- Welcome -->
+                <div class="welcome-section">
+
+                    <div>
+                        <p class="small-heading">
+                            OVERVIEW
+                        </p>
+
+                        <h1>
+                            Welcome back, Admin 👋
+                        </h1>
+
+                        <p class="welcome-text">
+                            Here's what's happening with your rental business today.
+                        </p>
+                    </div>
+
+
+                    <button class="primary-button" onclick="openVehicleModal()">
+                        <span>＋</span>
+                        Add Vehicle
+                    </button>
+
+                </div>
+
+
+                <!-- STATISTICS CARDS -->
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon blue">
+                            🚗
+                        </div>
+
+                        <div class="stat-details">
+                            <span>Total Vehicles</span>
+                            <h2 id="totalVehicles">{{ total_vehicles }}</h2>
+                            <small class="positive">
+                                ↑ 8.2% <span>vs last month</span>
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon green">
+                            ✓
+                        </div>
+
+                        <div class="stat-details">
+                            <span>Available</span>
+                            <h2 id="availableVehicles">{{ available_vehicles }}</h2>
+                            <small class="positive">
+                                ↑ 5.4% <span>vs last month</span>
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon orange">
+                            ↗
+                        </div>
+
+                        <div class="stat-details">
+                            <span>Active Rentals</span>
+                            <h2 id="activeRentals">{{ active_rentals }}</h2>
+                            <small class="positive">
+                                ↑ 12.5% <span>vs last month</span>
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon purple">
+                            👥
+                        </div>
+
+                        <div class="stat-details">
+                            <span>Total Customers</span>
+                            <h2 id="totalCustomers">{{ total_customers }}</h2>
+                            <small class="positive">
+                                ↑ 10.3% <span>vs last month</span>
+                            </small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOWER SECTION -->
+
+                <div class="dashboard-grid">
+
+                    <!-- Recent Rentals -->
+
+                    <div class="panel recent-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Recent Rentals</h3>
+                                <p>Latest vehicle rental activities</p>
+                            </div>
+
+                            <button class="view-button">
+                                View All
+                            </button>
+
+                        </div>
+
+
+                        <div class="table-container">
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Vehicle</th>
+                                        <th>Duration</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+
+                                </thead>
+
+
+                               <tbody>
+
+{% for rental in recent_rentals %}
+
+<tr>
+
+    <td>
+        <div class="customer">
+
+            <div class="customer-avatar avatar-blue">
+                {{ rental.customer_name[:2].upper() }}
+            </div>
+
+            <div>
+                <strong>{{ rental.customer_name }}</strong>
+                <small>{{ rental.rental_date }}</small>
+            </div>
+
+        </div>
+    </td>
+
+
+    <td>
+        <strong>{{ rental.vehicle_model }}</strong>
+        <small>{{ rental.vehicle_number }}</small>
+    </td>
+
+
+    <td>
+        {{ rental.duration }} Days
+    </td>
+
+
+    <td>
+        <strong>₹{{ rental.amount }}</strong>
+    </td>
+
+
+    <td>
+        <span class="status {{ rental.status|lower }}">
+            {{ rental.status }}
+        </span>
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Vehicle Availability -->
+
+                    <div class="panel availability-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Vehicle Status</h3>
+                                <p>Current fleet overview</p>
+                            </div>
+
+                            <span class="three-dot">•••</span>
+
+                        </div>
+
+
+                        <div class="availability-content">
+
+                            <div class="donut-chart">
+                                <div class="donut-center">
+                                    <strong>25</strong>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+
+
+                            <div class="legend">
+
+                                <div class="legend-item">
+                                    <span class="legend-color available-color"></span>
+                                    <span>Available</span>
+                                    <strong>18</strong>
+                                </div>
+
+                                <div class="legend-item">
+                                    <span class="legend-color rented-color"></span>
+                                    <span>Rented</span>
+                                    <strong>5</strong>
+                                </div>
+
+                                <div class="legend-item">
+                                    <span class="legend-color maintenance-color"></span>
+                                    <span>Maintenance</span>
+                                    <strong>2</strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <button class="full-button">
+                            Manage Vehicles →
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- ================= ADD VEHICLE MODAL ================= -->
+
+    <div class="modal-overlay" id="vehicleModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Add New Vehicle</h2>
+                    <p>Enter vehicle details below.</p>
+                </div>
+
+                <button class="close-button" onclick="closeVehicleModal()">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="vehicleForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Vehicle Number</label>
+
+                        <input
+                            type="text"
+                            placeholder="MH29AB1234"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Vehicle Type</label>
+
+                        <select required>
+
+                            <option value="">Select type</option>
+                            <option>Car</option>
+                            <option>Bike</option>
+                            <option>Scooter</option>
+                            <option>SUV</option>
+                            <option>Van</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Brand</label>
+
+                        <input
+                            type="text"
+                            placeholder="Maruti"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Model</label>
+
+                        <input
+                            type="text"
+                            placeholder="Swift"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Price Per Day</label>
+
+                        <input
+                            type="number"
+                            placeholder="1500"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Status</label>
+
+                        <select>
+
+                            <option>Available</option>
+                            <option>Rented</option>
+                            <option>Maintenance</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-button"
+                        onclick="closeVehicleModal()">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button">
+                        Add Vehicle
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+function openVehicleModal() {
+    document.getElementById("vehicleModal").style.display = "flex";
+}
+
+function closeVehicleModal() {
+    document.getElementById("vehicleModal").style.display = "none";
+}
+</script>
+
+
+</body>
+
+</html>

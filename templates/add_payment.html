@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Payment</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 13px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .back {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #2563eb;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Add Payment</h1>
+
+    <form action="/save-payment" method="POST">
+
+        <label>Rental</label>
+
+        <select name="rental_id" required>
+
+            <option value="">Select Rental</option>
+
+            {% for rental in rentals %}
+
+            <option value="{{ rental.rental_id }}">
+                #{{ rental.rental_id }}
+                - {{ rental.customer_name }}
+                - ₹{{ rental.total_amount }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <label>Amount</label>
+
+        <input
+            type="number"
+            name="amount"
+            step="0.01"
+            placeholder="Enter amount"
+            required
+        >
+
+
+        <label>Payment Date</label>
+
+        <input
+            type="date"
+            name="payment_date"
+            required
+        >
+
+
+        <label>Payment Method</label>
+
+        <select name="payment_method" required>
+
+            <option value="">Select Method</option>
+            <option value="Cash">Cash</option>
+            <option value="UPI">UPI</option>
+            <option value="Card">Card</option>
+            <option value="Net Banking">Net Banking</option>
+
+        </select>
+
+
+        <button type="submit">
+            Save Payment
+        </button>
+
+    </form>
+
+    <a href="/payments" class="back">
+        ← Back to Payments
+    </a>
+
+</div>
+
+</body>
+</html>

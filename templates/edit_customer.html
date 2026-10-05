@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Customer - VeloRent</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 13px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .back {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #2563eb;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Edit Customer</h1>
+
+    <form action="{{ url_for('update_customer', customer_id=customer.customer_id) }}" method="POST">
+
+        <label>Name</label>
+        <input
+            type="text"
+            name="name"
+            value="{{ customer.name }}"
+            required
+        >
+
+        <label>Phone</label>
+        <input
+            type="text"
+            name="phone"
+            value="{{ customer.phone }}"
+            required
+        >
+
+        <label>Email</label>
+        <input
+            type="email"
+            name="email"
+            value="{{ customer.email }}"
+            required
+        >
+
+        <label>Address</label>
+        <input
+            type="text"
+            name="address"
+            value="{{ customer.address }}"
+            required
+        >
+
+        <label>License No.</label>
+        <input
+            type="text"
+            name="license_no"
+            value="{{ customer.license_no }}"
+            required
+        >
+
+        <button type="submit">
+            Update Customer
+        </button>
+
+    </form>
+
+    <a href="{{ url_for('customers') }}" class="back">
+        ← Back to Customers
+    </a>
+
+</div>
+
+</body>
+</html>

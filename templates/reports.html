@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports - VeloRent</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #1f2937;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+        }
+
+        .header p {
+            color: #6b7280;
+            margin-top: 7px;
+        }
+
+        /* =========================
+           SUMMARY CARDS
+        ========================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .card .number {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           REPORT SECTIONS
+        ========================= */
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            margin-bottom: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f8fafc;
+        }
+
+        .available {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .rented {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .maintenance {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 10px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        @media (max-width: 900px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>Reports</h1>
+
+        <p>
+            Overview of VeloRent business data
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         SUMMARY
+    ========================= -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Total Vehicles</h3>
+
+            <div class="number">
+                {{ total_vehicles }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Total Customers</h3>
+
+            <div class="number">
+                {{ total_customers }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Total Rentals</h3>
+
+            <div class="number">
+                {{ total_rentals }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Total Revenue</h3>
+
+            <div class="number">
+                ₹{{ total_revenue }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         VEHICLE REPORT
+    ========================= -->
+
+    <div class="section">
+
+        <h2>Vehicle Status</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Vehicle Number</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Type</th>
+                    <th>Price / Day</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for vehicle in vehicles %}
+
+                <tr>
+
+                    <td>
+                        {{ vehicle.vehicle_number }}
+                    </td>
+
+                    <td>
+                        {{ vehicle.brand }}
+                    </td>
+
+                    <td>
+                        {{ vehicle.model }}
+                    </td>
+
+                    <td>
+                        {{ vehicle.vehicle_type }}
+                    </td>
+
+                    <td>
+                        ₹{{ vehicle.price_per_day }}
+                    </td>
+
+                    <td>
+
+                        {% if vehicle.status == "Available" %}
+
+                            <span class="available">
+                                Available
+                            </span>
+
+                        {% elif vehicle.status == "Rented" %}
+
+                            <span class="rented">
+                                Rented
+                            </span>
+
+                        {% else %}
+
+                            <span class="maintenance">
+                                Maintenance
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="6">
+                        No vehicles found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- =========================
+         RENTAL REPORT
+    ========================= -->
+
+    <div class="section">
+
+        <h2>Rental History</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Rental ID</th>
+                    <th>Customer</th>
+                    <th>Vehicle</th>
+                    <th>Rental Date</th>
+                    <th>Days</th>
+                    <th>Amount</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for rental in rentals %}
+
+                <tr>
+
+                    <td>
+                        #{{ rental.rental_id }}
+                    </td>
+
+                    <td>
+                        {{ rental.customer_name }}
+                    </td>
+
+                    <td>
+                        {{ rental.vehicle_model }}
+                    </td>
+
+                    <td>
+                        {{ rental.rental_date }}
+                    </td>
+
+                    <td>
+                        {{ rental.total_days }}
+                    </td>
+
+                    <td>
+                        ₹{{ rental.total_amount }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="6">
+                        No rental records found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- =========================
+         PAYMENT REPORT
+    ========================= -->
+
+    <div class="section">
+
+        <h2>Payment History</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Customer</th>
+                    <th>Rental ID</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for payment in payments %}
+
+                <tr>
+
+                    <td>
+                        #{{ payment.payment_id }}
+                    </td>
+
+                    <td>
+                        {{ payment.customer_name }}
+                    </td>
+
+                    <td>
+                        #{{ payment.rental_id }}
+                    </td>
+
+                    <td>
+                        ₹{{ payment.amount }}
+                    </td>
+
+                    <td>
+                        {{ payment.payment_date }}
+                    </td>
+
+                    <td>
+                        {{ payment.payment_method }}
+                    </td>
+
+                    <td>
+                        {{ payment.payment_status }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="7">
+                        No payment records found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('home') }}"
+        class="back"
+    >
+        ← Back to Dashboard
+    </a>
+
+
+</div>
+
+</body>
+
+</html>

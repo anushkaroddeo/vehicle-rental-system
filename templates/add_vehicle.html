@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Vehicle - VeloRent</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
+
+        .container {
+            width: 500px;
+            margin: 60px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 13px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #2563eb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Add Vehicle</h1>
+
+        <form action="{{ url_for('save_vehicle') }}" method="POST">
+
+            <label>Vehicle Number</label>
+            <input
+                type="text"
+                name="vehicle_number"
+                placeholder="MH29 EF 4567"
+                required
+            >
+
+            <label>Brand</label>
+            <input
+                type="text"
+                name="brand"
+                placeholder="Royal Enfield"
+                required
+            >
+
+            <label>Model</label>
+            <input
+                type="text"
+                name="model"
+                placeholder="Classic 350"
+                required
+            >
+
+            <label>Vehicle Type</label>
+
+            <select name="vehicle_type" required>
+                <option value="">Select Type</option>
+                <option value="Bike">Bike</option>
+                <option value="Car">Car</option>
+                <option value="Scooter">Scooter</option>
+                <option value="SUV">SUV</option>
+            </select>
+
+            <label>Price Per Day</label>
+
+            <input
+                type="number"
+                name="rental_price"
+                placeholder="1200"
+                min="0"
+                required
+            >
+
+            <button type="submit">
+                Add Vehicle
+            </button>
+
+        </form>
+
+        <a href="{{ url_for('vehicles') }}" class="back">
+            ← Back to Vehicles
+        </a>
+
+    </div>
+
+</body>
+
+</html>
