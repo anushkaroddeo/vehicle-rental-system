@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
-
+import os
 app = Flask(__name__)
 
 
@@ -10,10 +10,13 @@ app = Flask(__name__)
 
 def get_db_connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Kanushka@04",
-        database="vehicle_rental"
+        host=os.getenv("MYSQL_HOST"),
+        port=int(os.getenv("MYSQL_PORT", 3306)),
+        user=os.getenv("MYSQL_USER"),
+        password=os.getenv("MYSQL_PASSWORD"),
+        database=os.getenv("MYSQL_DATABASE"),
+        ssl_ca="ca.pem",
+        ssl_verify_cert=True
     )
 
 

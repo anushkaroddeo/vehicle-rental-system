@@ -239,102 +239,98 @@
 
             <tbody>
 
-                {% for rental in rentals %}
+    {% for rental in rentals %}
 
-                <tr>
+    <tr>
 
-                    <td>
-                        #{{ rental.rental_id }}
-                    </td>
+        <td>
+            #{{ rental.rental_id }}
+        </td>
 
-                    <td>
-                        <strong>
-                            {{ rental.customer_name }}
-                        </strong>
-                    </td>
+        <td>
+            <strong>
+                {{ rental.customer_name }}
+            </strong>
+        </td>
 
-                    <td>
-                        {{ rental.vehicle_model }}
-                        <br>
-                        <small>
-                            {{ rental.vehicle_number }}
-                        </small>
-                    </td>
+        <td>
+            {{ rental.vehicle_model }}
+            <br>
+            <small>
+                {{ rental.vehicle_number }}
+            </small>
+        </td>
 
-                    <td>
-                        {{ rental.rental_date }}
-                    </td>
+        <td>
+            {{ rental.rental_date }}
+        </td>
 
-                    <td>
-                        {{ rental.return_date or "Not Returned" }}
-                    </td>
+        <td>
+            {{ rental.return_date or "Not Returned" }}
+        </td>
 
-                    <td>
-                        {{ rental.total_days or "-" }}
-                    </td>
+        <td>
+            {{ rental.total_days or "-" }}
+        </td>
 
-                    <td>
-                        ₹{{ rental.total_amount or "0" }}
-                    </td>
+        <td>
+            ₹{{ rental.total_amount or "0" }}
+        </td>
 
-                    
-                    </td>
+        <td>
 
-                </tr>
+            {% if rental.return_date %}
 
-                {% else %}
+                <span class="status completed">
+                    Completed
+                </span>
 
-                <tr>
+            {% else %}
 
-                    <td colspan="8" class="empty">
-                        No rental records found.
-                    </td>
+                <span class="status active">
+                    Active
+                </span>
 
-                </tr>
-                <td>
+                <form
+                    action="{{ url_for('return_rental', rental_id=rental.rental_id) }}"
+                    method="POST"
+                    style="margin-top: 10px;"
+                >
 
-    {% if rental.return_date %}
+                    <button
+                        type="submit"
+                        style="
+                            background: #16a34a;
+                            color: white;
+                            border: none;
+                            padding: 8px 12px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                        "
+                        onclick="return confirm('Are you sure you want to return this vehicle?');"
+                    >
+                        Return Vehicle
+                    </button>
 
-        <span class="status completed">
-            Completed
-        </span>
+                </form>
+
+            {% endif %}
+
+        </td>
+
+    </tr>
 
     {% else %}
 
-        <span class="status active">
-            Active
-        </span>
+    <tr>
+        <td colspan="8" class="empty">
+            No rental records found.
+        </td>
+    </tr>
 
-        <form
-            action="{{ url_for('return_rental', rental_id=rental.rental_id) }}"
-            method="POST"
-            style="margin-top: 10px;"
-        >
+    {% endfor %}
 
-            <button
-                type="submit"
-                style="
-                    background: #16a34a;
-                    color: white;
-                    border: none;
-                    padding: 8px 12px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                "
-                onclick="return confirm('Are you sure you want to return this vehicle?');"
-            >
-                Return Vehicle
-            </button>
-
-        </form>
-
-    {% endif %}
-
-</td>
-
-                {% endfor %}
-
-            </tbody>
+</tbody>
 
         </table>
 
